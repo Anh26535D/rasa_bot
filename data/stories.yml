@@ -1,0 +1,86 @@
+version: "3.1"
+
+stories:
+
+# - story: happy path
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_great
+#   - action: utter_happy
+
+# - story: sad path 1
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
+#   - intent: affirm
+#   - action: utter_happy
+
+# - story: sad path 2
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
+#   - intent: deny
+#   - action: utter_goodbye
+
+- story: greet path
+  steps:
+    - intent: greet
+    - action: utter_greet
+
+- story: goodbye path
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+
+- story: thankyou path
+  steps:
+    - intent: thankyou
+    - action: utter_noworries
+
+- story: ask_ability path
+  steps:
+    - intent: ask_ability
+    - action: utter_show_ability
+
+- story: praise path
+  steps:
+    - intent: praise
+    - action: utter_happy
+
+- story: decry path
+  steps:
+    - intent: decry
+    - action: utter_sorry
+
+- story: ask_for_help path
+  steps:
+    - intent: ask_for_help
+    - action: utter_show_ability
+
+- story: ask_top_rate_res
+  steps:
+    - intent: ask_top_rate_res
+    - action: action_top_res_rate
+
+- story: ask_address_res
+  steps:
+    - intent: ask_address_res
+    - action: action_address_res
+
+- story: ask_food_name
+  steps:
+    - intent: ask_food_name
+    - action: action_food_name
+
+- story: ask_food_time
+  steps:
+    - intent: ask_food_time
+    - action: action_food_time
+    

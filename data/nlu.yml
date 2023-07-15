@@ -1,0 +1,123 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - chào em
+      - hello em
+      - hi em
+      - em ơi, cho anh hỏi
+      - bot ơi
+      - cho mình hỏi chút
+
+  - intent: goodbye
+    examples: |
+      - tạm biệt em
+      - tạm biệt bot nhá
+      - bye bye
+      - good bye
+
+  - intent: ask_ability
+    examples: |
+      - em có thể làm những gì nhỉ
+      - em có chức năng gì?
+      - em giúp gì được anh không?
+      - em có thể giúp gì cho anh?
+      - em biết làm gì?
+      - em hỗ trợ anh như thế nào?
+      - cho anh xem các chức năng của em
+
+  - intent: thankyou
+    examples: |
+      - cảm ơn em nhá
+      - thanks em nha
+      - cảm ơn nha
+      - good job
+      - thank you
+      - cảm ơn bot nha
+      - thanks bot
+      - cảm ơn
+      - thank you so much
+      - great! Thanks
+
+  - intent: praise
+    examples: |
+      - bot giỏi quá
+      - great
+      - awsome
+      - bot làm tốt lắm
+      - ui giỏi thế
+      - bot thông minh
+      - đẹp trai đấy
+      - Em đẹp trai quá
+
+  - intent: decry
+    examples: |
+      - quá tệ
+      - ngu ngốc
+      - chả biết gì cả
+      - ngu thật
+      - dở ghê
+      - có thế mà cũng không biết
+      - kém cói
+
+  - intent: ask_for_help
+    examples: |
+      - trưa nay anh nên ăn gì nhỉ
+      - trưa nay ăn gì bây giờ nhỉ
+      - chọn giúp t bữa trưa phát
+      - ăn trưa nào
+      - tiểu nhị, chọn món
+      - bữa trưa
+      - ăn gì bây giờ
+      - chọn giúp anh một quán ăn
+
+  - intent: ask_top_rate_res
+    examples: |
+      - top [5](number_top_res) nhà hàng đánh giá cao nhất
+      - [10](number_top_res) nhà hàng được đánh giá cao nhất
+      - [7](number_top_res) quán ăn ngon nhất
+      - các quán ăn được đánh giá cao nhất
+      - những quán ăn nhất
+
+  - intent: ask_address_res
+    examples: |
+      - các quán ăn ở khu vực [Cầu Giấy](address_res)
+      - các quán ăn ở [Hoàn Kiếm](address_res)
+      - ở [Tây Hồ](address_res) có quán ăn nào không
+      - tìm quán ở [Bách khoa](address_res)
+      - ở [Hai Bà trưng](address_res) có chỗ nào ăn không
+
+  - intent: ask_food_name
+    examples: |
+      - tìm quán ăn [bún chả](food_name) ở [Hai Bà Trưng](address_food)
+      - tìm quán ăn [bún đậu](food_name)
+      - anh muốn ăn [bánh mì](food_name) ở đâu
+      - có quán ăn nào bán [chocolate](food_name) không
+      - gợi í quán ăn [cơm tấm](food_name)
+      - có quán nào bán [trà sữa](food_name) không
+      - tìm quán ăn [bún đậu mắm tôm](food_name) ở [Ba Đình](address_food)
+      - ở [Hoàng Mai](address_food) có quán ăn [cơm rang](food_name) không
+      - tìm quán ăn [phở](food_name) ở [Quốc Oai](address_food)
+      - món ăn nào [khoảng](price_type) [50](start_price)k không
+      - có [cháo lòng](food_name) giá [100](start_price)k không
+      - có món ăn nào dưới [200](start_price)k không ở [Sơn Tây](address_food)
+      - có món ăn nào tầm [300](start_price)k đến [400](price)k không
+      - món ăn nào giá [500](start_price)k đến [600](end_price)k
+      - tôi cần tìm món ăn giá [700](start_price)k [đến](price_type) [800](end_price)k
+      - có món ăn nào [khoảng](price_type) [5000](start_price) không
+      - món ăn nào giá [10000](start_price) không
+      - có [bún riêu](food_name) [dưới](price_type) [200000](start_price) không
+      - có món ăn nào [tầm](price_type) [30000](start_price) đến [400000](end_price)k không
+      - ở [Mỹ Đức](address_food) món ăn nào giá [50000](start_price) [đến](price_type) [60000](end_price)
+      - tôi cần tìm món ăn giá [700000](start_price)k [đến](price_type) [800000](end_price)
+
+  - intent: ask_food_time
+    examples: |
+      - từ [10](start_time) h đến [11](end_time) h có quán ăn nào không
+      - có quán ăn nào [mở cửa](time_type) [12](start_time) h không
+      - có quán ăn nào [mở cửa](time_type) [13](start_time)h không
+      - từ [14](start_time)giờ đến [15](end_time)giờ có quán ăn nào không
+      - có quán ăn [gà rán](food_name_time) nào [mở cửa](time_type) [16](start_time) h không
+      - có quán ăn [bánh gạo](food_name_time) nào [bây giờ](time_type) giờ không
+      - [bây giờ](time_type) có quán ăn [kem xôi](food_name_time) không
