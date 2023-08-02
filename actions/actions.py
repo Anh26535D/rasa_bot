@@ -11,41 +11,13 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from datetime import datetime
-
-# Đọc file JSON
-with open("D:\Project2\RasaChatbot\data\data.json", "r", encoding="utf-8") as file:
-    data = json.load(file)
-    data = sorted(data, key=lambda item: item.get("Đánh giá chung", 0), reverse=True)
+from ActionService import ActionService
 
 list_over = ['trên', 'hơn', 'lớn hơn', 'cao hơn', 'nhiều hơn', 'nhiều h', 'sau', 'trở đi', 'trở ra', 'trở lên']
 list_under = ['dưới', 'ít hơn', 'thấp hơn', 'nhỏ hơn', 'kém hơn', 'kém h', 'trước', 'trở lại', 'trở xuống', 'trở về']
 list_middle = ['hiện tại', 'lúc này', 'bây giờ', 'đang', 'đamg mở', 'đang bán', 'bây giờ', "bây", "giờ"]
 
-def get_top_names(top_names_count, address_food):
-    objsTop = []
-    number = 0
-    min_overallRating = float(0)
-    for obj in data:
-        if address_food.lower() in obj['Địa chỉ'].lower():
-            if number <= top_names_count:
-                min_overallRating = float(obj['Đánh giá chung'])
-                objsTop.append(obj)
-                number += 1
-                continue
-            else:
-                if float(obj['Đánh giá chung']) == min_overallRating:
-                    objsTop.append(obj)
-                    continue
-                else:
-                    break
-    randomObjs = []
-    if number < top_names_count:
-        randomObjs = objsTop
-    else:
-        randomObjs = random.sample(objsTop, top_names_count)
-
-    top_names = [{"name":obj['Tên quán'], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in randomObjs]
-    return top_names
+action_service = ActionService()
 
 def get_top_food(top_names_count, food_name):
     objsTop = []
@@ -540,7 +512,7 @@ class ActionTopRateAddress(Action):
             else:
                 dispatcher.utter_message(text="Em xin gợi ý vài quán ăn có món " + food_name + " là: \n" + "\n".join([f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']}" for obj in top_names]))
         elif address_food and food_name == None:
-            top_names = get_top_names(number_top_res_count, address_food)
+            top_names = action_service.get_top_names(number_top_res_count, address_food)
             if len(top_names) == 0:
                 dispatcher.utter_message(text="Em xin lỗi, hiện tại chưa có dữ liệu về quán ăn tại " + address_food)
             elif number_top_res:
