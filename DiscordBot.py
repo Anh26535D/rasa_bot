@@ -1,15 +1,17 @@
-from rasa.core.agent import Agent
-import os
 import discord
+import os
+from rasa.core.agent import Agent
+from rasa.core.trackers import DialogueStateTracker
+from rasa.shared.core.events import UserUttered, ActionExecuted
 
-MODEL_NAME = "20230715-222942-exponential-mead.tar.gz"
-TOKEN = "MTExNzMzMjY0Njc1ODk5Mzk1MA.Gxxr9o.QaIMhqwvTlp4HjThyaXjjWhKh4f9xFh6oPx0lA"
+MODEL_NAME = "20230720-224118-pizzicato-weight.tar.gz"
+TOKEN = "MTExNzMzMjY0Njc1ODk5Mzk1MA.GelRN8.p__bc9wFNSUtVOJKR6yaIf39ZfwAbUyMCHaafw"
 
 cur_path = os.getcwd()
 
 model_path = os.path.join(cur_path, "models", MODEL_NAME)
 agent = Agent()
-model = agent.load_model(model_path=model_path)
+agent.load_model(model_path=model_path)
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -27,14 +29,15 @@ async def on_message(message):
     # Get the user's message
     user_message = message.content
 
-    # Get the Rasa agent's response
-    rasa_response = await agent.handle_text(user_message)
+    # Create a conversation tracker
+    tracker = DialogueStateTracker.from_events(sender_id=message.author.id, evts=[UserUttered(user_message)])
 
+    # Get the Rasa agent's response using the conversation tracker
+    rasa_response = await agent.handle_text(user_message, tracker)
+
+    print(rasa_response)
     # Extract the text from the Rasa response
     response_text = rasa_response[0]["text"]
     await message.channel.send(response_text)
-
-    # response_image = rasa_response[0]["image"]
-    # await message.channel.send(response_image)
 
 client.run(TOKEN)

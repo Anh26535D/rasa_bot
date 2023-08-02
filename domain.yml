@@ -8,11 +8,11 @@ intents:
   - praise
   - decry
   - ask_for_help
-  - ask_top_rate_res
-  - ask_address_res
-  - ask_food_name
+  - ask_top_rate_address
+  - ask_food_name_with_address
+  - ask_food_name_with_price
+  - ask_food_name_with_price_address
   - ask_food_time
-
 
 responses:
   utter_greet:
@@ -38,11 +38,11 @@ actions:
   - utter_noworries
   - utter_show_ability
   - utter_fallback
-  - action_top_res_rate
-  - action_address_res
-  - action_food_name
+  - action_top_rate_address
+  - action_food_name_with_address
+  - action_food_name_with_price
+  - action_food_name_with_price_address
   - action_food_time
-
 
 entities:
   - number_top_res
@@ -50,13 +50,12 @@ entities:
   - food_name
   - address_food
   - price_type
+  - price
   - start_price
   - end_price
   - start_time
   - end_time
   - time_type
-  - food_name_time
-
 
 slots:
   number_top_res:
@@ -93,6 +92,13 @@ slots:
     mappings:
       - type: from_entity
         entity: price_type
+
+  price:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: price
   
   start_price:
     type: text
@@ -128,13 +134,6 @@ slots:
     mappings:
       - type: from_entity
         entity: time_type
-
-  food_name_time:
-    type: text
-    influence_conversation: false
-    mappings:
-      - type: from_entity
-        entity: food_name_time
 
 session_config:
   session_expiration_time: 60
