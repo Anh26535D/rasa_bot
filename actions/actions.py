@@ -120,25 +120,6 @@ def get_food_name_with_price_address(food_name, start_price, end_price, address_
             objs = random.sample(objs, 5)
     top_names = [{"name":obj['Tên quán'], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in objs]
     return top_names
-  
-# def get_food_name_with_price(food_name, start_price, end_price):
-    # start_price = convert_price(start_price)
-    # end_price = convert_price(end_price)
-    # objs = []
-    # for obj in data:
-    #         foods = obj['Thông tin đồ ăn của quán']
-    #         for food in foods:
-    #             if food_name.lower() in food['Tên đồ ăn'].lower() or food_name.lower() in food['Loại đồ ăn'].lower():
-    #                 price = convert_price(food['Giá'])
-    #                 if (price >= start_price and price <= end_price) or (price <= start_price and price >= end_price):
-    #                     objs.append(obj)
-    #                     break
-
-    # if objs is not None or len(objs) > 0:
-    #     if len(objs)>5:
-    #         objs = random.sample(objs, 5)
-    # top_names = [{"name":obj['Tên quán'], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in objs]
-    # return top_names
 
 def get_food_name_with_type_price(food_name, price_type, start_price):
     address_food = ""
@@ -305,59 +286,6 @@ def get_food_name_with_type_time_address(food_name, start_time, week_day, addres
             objs = random.sample(objs, 5)
 
     top_names = [{"name":obj['Tên quán'], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in objs]
-    return top_names
-
-# def get_food_name_with_type_time_address(food_name, start_time, end_time, address_food):
-    objs = []
-    number = 0 
-    for obj in data:
-        if address_food.lower() in obj['Địa chỉ'].lower():
-            have_food = False
-            time_obj = []
-            foods = obj['Thông tin đồ ăn của quán']
-            for food in foods:
-                if food_name.lower() in food['Tên đồ ăn'].lower() or food_name.lower() in food['Loại đồ ăn'].lower():
-                    have_food = True
-                    break
-            if have_food:
-                times = obj['Thời gian đặt hàng']
-                if times and len(times) > 0:
-                    for time in times:
-                            if isinstance(time, dict):
-                                if compare_times(time["Start_time"], start_time) and compare_times(end_time, time["End_time"]):
-                                    time_obj.append(str(time["Week_day"]))
-                                    number += 1
-
-                if len(time_obj) > 0:
-                    obj['time'] = time_obj
-                    objs.append(obj)
-
-    if objs is not None or len(objs) > 0:
-        if len(objs)>5:
-            objs = random.sample(objs, 5)
-    for obj in objs:
-        obj['name'] = obj['Tên quán']
-        obj['address'] = obj['Địa chỉ']
-        obj['link'] = obj['Url']
-        time_list = []
-        for time_obj in obj['time']:
-            if time_obj == "1":
-                time_list.append("Thứ 2")
-            elif time_obj == "2":
-                time_list.append("Thứ 3")
-            elif time_obj == "3":
-                time_list.append("Thứ 4")
-            elif time_obj == "4":
-                time_list.append("Thứ 5")
-            elif time_obj == "5":
-                time_list.append("Thứ 6")
-            elif time_obj == "6":
-                time_list.append("Thứ 7")
-            elif time_obj == "7":
-                time_list.append("Chủ nhật")
-        obj['time'] = ", ".join(time_list)
-
-    top_names = [{"name":obj['name'], "address":obj["address"], "link": obj["link"], "time": obj["time"]} for obj in objs]
     return top_names
 
 def get_food_name_with_now_address(food_name, address_food):
