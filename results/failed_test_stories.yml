@@ -1,0 +1,53 @@
+version: "3.1"
+stories:
+- story: test price (.\tests\test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_food_name_with_price  # predicted: ask_food_name_with_price: "địa điểm [mua](food_name) [bánh](food_name) từ [100k](start_price) [đến](price_type) [200k](start_price)"
+  - action: action_food_name_with_price
+- story: happy path 1 (.\venv\Lib\site-packages\rasa\cli\initial_project\tests\test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great  # predicted: praise: amazing
+  - action: utter_happy  # predicted: action_food_name_with_address
+- story: happy path 2 (.\venv\Lib\site-packages\rasa\cli\initial_project\tests\test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great  # predicted: praise: amazing
+  - action: utter_happy  # predicted: action_food_name_with_address
+  - intent: goodbye
+  - action: utter_goodbye
+- story: sad path 1 (.\venv\Lib\site-packages\rasa\cli\initial_project\tests\test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy  # predicted: goodbye: not good
+  - action: utter_cheer_up  # predicted: action_food_name_with_address
+  - action: utter_did_that_help  # predicted: action_listen
+  - intent: affirm  # predicted: greet: yes
+  - action: utter_happy  # predicted: action_food_name_with_address
+- story: sad path 2 (.\venv\Lib\site-packages\rasa\cli\initial_project\tests\test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy  # predicted: goodbye: not good
+  - action: utter_cheer_up  # predicted: action_food_name_with_address
+  - action: utter_did_that_help  # predicted: action_listen
+  - intent: deny  # predicted: nlu_fallback: not really
+  - action: utter_goodbye  # predicted: action_food_name_with_address
+- story: sad path 3 (.\venv\Lib\site-packages\rasa\cli\initial_project\tests\test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy  # predicted: goodbye: very terrible
+  - action: utter_cheer_up  # predicted: action_food_name_with_address
+  - action: utter_did_that_help  # predicted: action_listen
+  - intent: deny  # predicted: greet: no
+  - action: utter_goodbye  # predicted: action_food_name_with_address
+- story: bot challenge (.\venv\Lib\site-packages\rasa\cli\initial_project\tests\test_stories.yml)
+  steps:
+  - intent: bot_challenge  # predicted: thankyou: are you a bot?
+  - action: utter_iamabot  # predicted: action_food_name_with_address

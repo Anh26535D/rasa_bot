@@ -2,10 +2,6 @@ import pymongo
 import random
 from datetime import datetime
 
-# DAM VIET ANH
-# def get_price(start_price, end_price):
-# def get_type_price(price_type, start_price):
-
 class ActionService:
 
     list_over = ['trên', 'hơn', 'lớn hơn', 'cao hơn', 'nhiều hơn', 'nhiều h', 'sau', 'trở đi', 'trở ra', 'trở lên']
@@ -34,26 +30,29 @@ class ActionService:
         time1 = self.parse_time(time_str1)
         time2 = self.parse_time(time_str2)
 
-        if time1 <= time2:
-            return True
-        else:
-            return False
+        return time1 <= time2
 
-    def convert_price(price_str):
-        if isinstance(price_str, str):
-            price_pr = price_str.replace(",", "").replace("đ", "").replace(".", "").strip()
+    def convert_price(self, shorthand_price):
+        if isinstance(shorthand_price, str):
+            price_pr = shorthand_price.replace(",", "").replace("đ", "").replace(".", "").strip()
             if price_pr.endswith('k'):
                 return int(price_pr[:-1]) * 1000
             return int(price_pr)
-        return price_str
+        return shorthand_price
 
     def get_top_names(self, num_objects, address_food):
         collection = self.database["mainContent"]
-        res = collection.find({"Địa chỉ": { "$regex": f"{address_food}", "$options": "i" }}).sort("Đánh giá chung", -1)
+        projection = {"Tên quán": 1, "Địa chỉ": 1, "Url": 1, "_id": 0}
 
-        res = res[:num_objects]
+        res = collection.find(
+            {"Địa chỉ": {"$regex": f"{address_food}", "$options": "i"}},
+            projection
+        ).sort("Đánh giá chung", -1).limit(num_objects)
 
-        top_names = [{"name":obj["Tên quán"], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in res]
+        if res:
+            top_names = [{"name":obj["Tên quán"], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in res]
+        else:
+            top_names = []
         return top_names
     
     def get_top_food(self, top_names_count, food_name):
@@ -189,7 +188,7 @@ class ActionService:
         ]
         return result
     
-    def get_food_name_with_price_address(self, food_name, start_price, end_price, address_food, num_objects=5):
+    def get_food_name_with_price_address(self, food_name, start_price, end_price, address_food="", num_objects=5):
         start_price = self.convert_price(start_price)
         end_price = self.convert_price(end_price)
 

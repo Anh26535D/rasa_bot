@@ -1,0 +1,640 @@
+[
+  {
+    "text": "có món ăn nào tầm 30000 đến 400000 không?",
+    "entities": [
+      {
+        "start": 14,
+        "end": 17,
+        "value": "tầm",
+        "entity": "price_type"
+      },
+      {
+        "start": 18,
+        "end": 23,
+        "value": "30000",
+        "entity": "start_price"
+      },
+      {
+        "start": 28,
+        "end": 34,
+        "value": "400000",
+        "entity": "end_price"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "price_type",
+        "start": 14,
+        "end": 17,
+        "confidence_entity": 0.960183322429657,
+        "value": "tầm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 18,
+        "end": 23,
+        "confidence_entity": 0.6697440147399902,
+        "value": "30000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 24,
+        "end": 27,
+        "confidence_entity": 0.7060233950614929,
+        "value": "đến",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 28,
+        "end": 34,
+        "confidence_entity": 0.532538890838623,
+        "value": "400000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "có cơm tầm 30000 đến 400000 ở Quốc Oai không?",
+    "entities": [
+      {
+        "start": 3,
+        "end": 6,
+        "value": "cơm",
+        "entity": "food_name"
+      },
+      {
+        "start": 7,
+        "end": 10,
+        "value": "tầm",
+        "entity": "price_type"
+      },
+      {
+        "start": 11,
+        "end": 16,
+        "value": "30000",
+        "entity": "start_price"
+      },
+      {
+        "start": 21,
+        "end": 27,
+        "value": "400000",
+        "entity": "end_price"
+      },
+      {
+        "start": 30,
+        "end": 38,
+        "value": "Quốc Oai",
+        "entity": "address_food"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "food_name",
+        "start": 3,
+        "end": 6,
+        "confidence_entity": 0.8601676821708679,
+        "value": "cơm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 7,
+        "end": 10,
+        "confidence_entity": 0.9517772793769836,
+        "value": "tầm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 11,
+        "end": 16,
+        "confidence_entity": 0.713529646396637,
+        "value": "30000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 17,
+        "end": 20,
+        "confidence_entity": 0.5574217438697815,
+        "value": "đến",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 21,
+        "end": 27,
+        "confidence_entity": 0.6716426014900208,
+        "value": "400000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "address_food",
+        "start": 30,
+        "end": 38,
+        "confidence_entity": 0.999678373336792,
+        "value": "Quốc Oai",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "tôi cầm tìm bia hơi giá 10000 đến 20000 ở Sóc Sơn.",
+    "entities": [
+      {
+        "start": 12,
+        "end": 19,
+        "value": "bia hơi",
+        "entity": "food_name"
+      },
+      {
+        "start": 24,
+        "end": 29,
+        "value": "10000",
+        "entity": "start_price"
+      },
+      {
+        "start": 30,
+        "end": 33,
+        "value": "đến",
+        "entity": "price_type"
+      },
+      {
+        "start": 34,
+        "end": 39,
+        "value": "20000",
+        "entity": "end_price"
+      },
+      {
+        "start": 42,
+        "end": 49,
+        "value": "Sóc Sơn",
+        "entity": "address_food"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "food_name",
+        "start": 12,
+        "end": 19,
+        "confidence_entity": 0.9969723224639893,
+        "value": "bia hơi",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 24,
+        "end": 29,
+        "confidence_entity": 0.6716942191123962,
+        "value": "10000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 30,
+        "end": 33,
+        "confidence_entity": 0.6832975149154663,
+        "value": "đến",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 34,
+        "end": 39,
+        "confidence_entity": 0.5271908640861511,
+        "value": "20000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "address_food",
+        "start": 42,
+        "end": 49,
+        "confidence_entity": 0.9944831728935242,
+        "value": "Sóc Sơn",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Có xôi dưới 200000 ở Tây Hồ không?",
+    "entities": [
+      {
+        "start": 3,
+        "end": 6,
+        "value": "xôi",
+        "entity": "food_name"
+      },
+      {
+        "start": 12,
+        "end": 18,
+        "value": "200000",
+        "entity": "start_price"
+      },
+      {
+        "start": 21,
+        "end": 27,
+        "value": "Tây Hồ",
+        "entity": "address_food"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "food_name",
+        "start": 3,
+        "end": 6,
+        "confidence_entity": 0.9554973244667053,
+        "value": "xôi",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 7,
+        "end": 11,
+        "confidence_entity": 0.8767621517181396,
+        "value": "dưới",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 12,
+        "end": 18,
+        "confidence_entity": 0.744789183139801,
+        "value": "200000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "address_food",
+        "start": 21,
+        "end": 27,
+        "confidence_entity": 0.9972774386405945,
+        "value": "Tây Hồ",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Có món ăn nào tầm 30000 đến 400000 ở Cầu Giấy không?",
+    "entities": [
+      {
+        "start": 14,
+        "end": 17,
+        "value": "tầm",
+        "entity": "price_type"
+      },
+      {
+        "start": 18,
+        "end": 23,
+        "value": "30000",
+        "entity": "start_price"
+      },
+      {
+        "start": 28,
+        "end": 34,
+        "value": "400000",
+        "entity": "end_price"
+      },
+      {
+        "start": 37,
+        "end": 45,
+        "value": "Cầu Giấy",
+        "entity": "address_food"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "price_type",
+        "start": 14,
+        "end": 17,
+        "confidence_entity": 0.9350433945655823,
+        "value": "tầm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 18,
+        "end": 23,
+        "confidence_entity": 0.6905695796012878,
+        "value": "30000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 24,
+        "end": 27,
+        "confidence_entity": 0.599541187286377,
+        "value": "đến",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 28,
+        "end": 34,
+        "confidence_entity": 0.5534020066261292,
+        "value": "400000",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "address_food",
+        "start": 37,
+        "end": 45,
+        "confidence_entity": 0.999360978603363,
+        "value": "Cầu Giấy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "có quán ăn vặt giá từ 5k đến 10k không nhỉ?",
+    "entities": [
+      {
+        "start": 8,
+        "end": 14,
+        "value": "ăn vặt",
+        "entity": "food_name"
+      },
+      {
+        "start": 22,
+        "end": 24,
+        "value": "5k",
+        "entity": "start_price"
+      },
+      {
+        "start": 29,
+        "end": 32,
+        "value": "10k",
+        "entity": "end_price"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "food_name",
+        "start": 11,
+        "end": 14,
+        "confidence_entity": 0.9989385008811951,
+        "value": "vặt",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "start_price",
+        "start": 22,
+        "end": 24,
+        "confidence_entity": 0.9983747005462646,
+        "value": "5k",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 25,
+        "end": 28,
+        "confidence_entity": 0.5543472170829773,
+        "value": "đến",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "end_price",
+        "start": 29,
+        "end": 32,
+        "confidence_entity": 0.9974742531776428,
+        "value": "10k",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Từ 14 giờ đến 15 giờ có quán ăn nào không?",
+    "entities": [
+      {
+        "start": 3,
+        "end": 9,
+        "value": "14 giờ",
+        "entity": "start_time"
+      },
+      {
+        "start": 10,
+        "end": 13,
+        "value": "đến",
+        "entity": "price_type"
+      },
+      {
+        "start": 14,
+        "end": 20,
+        "value": "15 giờ",
+        "entity": "end_time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "number_top_res",
+        "start": 3,
+        "end": 9,
+        "confidence_entity": 0.3782551884651184,
+        "value": "14 giờ",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 10,
+        "end": 13,
+        "confidence_entity": 0.745863139629364,
+        "value": "đến",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 14,
+        "end": 20,
+        "confidence_entity": 0.4208909273147583,
+        "value": "15 giờ",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Có quán ăn vịt quay nào bây giờ giờ không?",
+    "entities": [
+      {
+        "start": 11,
+        "end": 19,
+        "value": "vịt quay",
+        "entity": "food_name"
+      },
+      {
+        "start": 24,
+        "end": 31,
+        "value": "bây giờ",
+        "entity": "time_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "food_name",
+        "start": 11,
+        "end": 19,
+        "confidence_entity": 0.99815434217453,
+        "value": "vịt quay",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time_type",
+        "start": 24,
+        "end": 35,
+        "confidence_entity": 0.5571244359016418,
+        "value": "bây giờ giờ",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Từ 19 giờ đến 20 giờ 20 phút có quán ăn nào không?",
+    "entities": [
+      {
+        "start": 3,
+        "end": 9,
+        "value": "19 giờ",
+        "entity": "start_time"
+      },
+      {
+        "start": 14,
+        "end": 28,
+        "value": "20 giờ 20 phút",
+        "entity": "end_time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "number_top_res",
+        "start": 3,
+        "end": 9,
+        "confidence_entity": 0.3613276779651642,
+        "value": "19 giờ",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "price_type",
+        "start": 10,
+        "end": 13,
+        "confidence_entity": 0.749777615070343,
+        "value": "đến",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "start_price",
+        "start": 14,
+        "end": 20,
+        "confidence_entity": 0.4275086522102356,
+        "value": "20 giờ",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "start_price",
+        "start": 21,
+        "end": 28,
+        "confidence_entity": 0.37376895546913147,
+        "value": "20 phút",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  }
+]

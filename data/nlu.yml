@@ -165,7 +165,6 @@ nlu:
       - Có quán ăn [bây giờ](time_type) giờ không?
       - [Bây giờ](time_type) có quán ăn [cơm sườn](food_name) không?
 
-
   - regex: start_time
     examples: |
       - \b\d+(\s*(giờ|g|h)\s*(\d+)?('\s*phút)?|\d+(\s*:\s*\d+)?(h(\d+('\s*phút)?)?)?)\b

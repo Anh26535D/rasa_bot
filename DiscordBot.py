@@ -1,11 +1,9 @@
 import discord
 import os
 from rasa.core.agent import Agent
-from rasa.core.trackers import DialogueStateTracker
-from rasa.shared.core.events import UserUttered, ActionExecuted
 
 MODEL_NAME = "20230720-224118-pizzicato-weight.tar.gz"
-TOKEN = "MTExNzMzMjY0Njc1ODk5Mzk1MA.GelRN8.p__bc9wFNSUtVOJKR6yaIf39ZfwAbUyMCHaafw"
+TOKEN = "YOUR_TOKEN"
 
 cur_path = os.getcwd()
 
@@ -29,11 +27,7 @@ async def on_message(message):
     # Get the user's message
     user_message = message.content
 
-    # Create a conversation tracker
-    tracker = DialogueStateTracker.from_events(sender_id=message.author.id, evts=[UserUttered(user_message)])
-
-    # Get the Rasa agent's response using the conversation tracker
-    rasa_response = await agent.handle_text(user_message, tracker)
+    rasa_response = agent.handel
 
     print(rasa_response)
     # Extract the text from the Rasa response
