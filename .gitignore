@@ -1,7 +1,8 @@
 # Ignore virtual environment directories
 venv
 .rasa
-tests
 models
 secret.txt
 test.py
+actions/__pycache__
+results
