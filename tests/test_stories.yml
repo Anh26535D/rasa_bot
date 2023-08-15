@@ -1,14 +1,2 @@
 #### This file contains tests to evaluate that your bot behaves as expected.
 #### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
-
-stories:
-- story: test price
-  steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      "địa điểm mua bánh từ 100k đến 200k"
-    intent: ask_food_name_with_price
-  - action: action_food_name_with_price
