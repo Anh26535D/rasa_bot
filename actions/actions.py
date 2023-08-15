@@ -48,9 +48,9 @@ class ActionTopRateAddress(Action):
             text = f"Bot xin lỗi, hiện tại chưa có dữ liệu về quán ăn tại {address_food} mà có món {food_name}"
             if eatery_spots:
                 text = f"Bot xin gợi ý {len(eatery_spots)} quán ăn có món {food_name} tại {address_food} là:\n"
-                for i, spot in enumerate(eatery_spots):
-                    text += f"{i+1}. {spot['name']} ở {spot['address']}\n"
-                    text += f"----> link: {spot['link']}\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
             dispatcher.utter_message(text=text)
             return []
 
@@ -60,9 +60,9 @@ class ActionTopRateAddress(Action):
             text = f"Bot xin lỗi, hiện tại chưa có dữ liệu về món ăn {food_name}"
             if eatery_spots:
                 text = f"Do không biết địa điểm là gì, Bot xin gợi ý {len(eatery_spots)} quán ăn có {food_name} là:\n"
-                for i, spot in enumerate(eatery_spots):
-                    text += f"{i+1}. {spot['name']} ở {spot['address']}\n"
-                    text += f"----> link: {spot['link']}\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
             dispatcher.utter_message(text=text)
             return []
 
@@ -72,9 +72,9 @@ class ActionTopRateAddress(Action):
             text = f"Bot xin lỗi, hiện tại chưa có dữ liệu về quán ăn tại {address_food}"
             if eatery_spots:
                 text = f"Do không biết đồ ăn là gì, Bot xin gợi ý {len(eatery_spots)} quán ăn tại {address_food} là:\n"
-                for i, spot in enumerate(eatery_spots):
-                    text += f"{i+1}. {spot['name']} ở {spot['address']}\n"
-                    text += f"----> link: {spot['link']}\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
             dispatcher.utter_message(text=text)
             return []
 
@@ -119,59 +119,64 @@ class ActionFoodNameWithAddress(Action):
                 address_food = e["value"]
 
         if food_name and start_price and end_price and address_food:
-            list = action_service.get_food_name_with_price_address(
+            eatery_spots = action_service.get_food_name_with_price_address(
                 food_name, start_price, end_price, address_food)
-            if list is None or len(list) == 0:
-                dispatcher.utter_message(text="Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn " +
-                                         food_name + " tại " + address_food + " với giá từ " + start_price + " đến " + end_price)
-            else:
-                dispatcher.utter_message(text="Bot xin gợi ý các quán có món ăn " + food_name + " tại " + address_food + " với giá từ " + start_price + " đến " +
-                                         end_price + " là: \n" + "\n".join([f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']}" for obj in list]))
+            text = f"Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn {food_name} tại {address_food} với giá từ {start_price} đến {end_price}"
+            if eatery_spots:
+                text = f"Bot xin gợi ý các quán có món ăn {food_name} tại {address_food} với giá từ {start_price} đến {end_price} là:\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
+            dispatcher.utter_message(text=text)
             return []
 
         if food_name and start_price and price_type and address_food:
-            list = action_service.get_food_name_with_type_price(
+            eatery_spots = action_service.get_food_name_with_type_price(
                 food_name, price_type, start_price, address_food)
-            if list is None or len(list) == 0:
-                dispatcher.utter_message(text="Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn " +
-                                         food_name + " tại " + address_food + " với giá " + price_type + " " + start_price + ".")
-            else:
-                dispatcher.utter_message(text="Bot xin gợi ý các quán có món ăn " + food_name + " tại " + address_food + " với giá " + price_type + " " +
-                                         start_price + " là: \n" + "\n".join([f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']}" for obj in list]))
+            text = f"Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn {food_name} tại {address_food} với giá {price_type} {start_price}."
+            if eatery_spots:
+                text = f"Bot xin gợi ý các quán có món ăn {food_name} tại {address_food} với giá {price_type} {start_price} là:\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
+            dispatcher.utter_message(text=text)
             return []
 
         if food_name and address_food:
-            list = action_service.get_spots_by_foodname_address(
+            eatery_spots = action_service.get_spots_by_foodname_address(
                 food_name, address_food)
-            if list is None or len(list) == 0:
-                dispatcher.utter_message(
-                    text="Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn " + food_name + " tại " + address_food)
-            else:
-                dispatcher.utter_message(text="Bot xin gợi ý các quán có món ăn " + food_name + " tại " + address_food + " là: \n" + "\n".join(
-                    [f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']}" for obj in list]))
+            text = f"Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn {food_name} tại {address_food}"
+            if eatery_spots:
+                text = f"Bot xin gợi ý các quán có món ăn {food_name} tại {address_food} là:\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
+            dispatcher.utter_message(text=text)
             return []
 
         if food_name and start_price and end_price:
             address_food = ""
-            list = action_service.get_food_name_with_price_address(
+            eatery_spots = action_service.get_food_name_with_price_address(
                 food_name, start_price, end_price, address_food)
-            if list is None or len(list) == 0:
-                dispatcher.utter_message(text="Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn " +
-                                         food_name + " với giá từ " + start_price + " đến " + end_price)
-            else:
-                dispatcher.utter_message(text="Bot xin gợi ý các quán có món ăn " + food_name + " với giá từ " + start_price + " đến " + end_price +
-                                         " là: \n" + "\n".join([f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']}" for obj in list]))
+            text = f"Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn {food_name} với giá từ {start_price} đến {end_price}"
+            if eatery_spots:
+                text = f"Bot xin gợi ý các quán có món ăn {food_name} với giá từ {start_price} đến {end_price} là:\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
+            dispatcher.utter_message(text=text)
             return []
 
         if food_name and start_price and price_type:
-            list = action_service.get_food_name_with_type_price(
+            eatery_spots = action_service.get_food_name_with_type_price(
                 food_name, price_type, start_price)
-            if list is None or len(list) == 0:
-                dispatcher.utter_message(text="Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn " +
-                                         food_name + " với giá " + price_type + " " + start_price)
-            else:
-                dispatcher.utter_message(text="Bot xin gợi ý các quán có món ăn " + food_name + " với giá " + price_type + " " + start_price +
-                                         " là: \n" + "\n".join([f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']}" for obj in list]))
+            text = f"Bot xin lỗi, hiện tại chưa tìm thấy dữ liệu về món ăn {food_name} với giá {price_type} {start_price}"
+            if eatery_spots:
+                text = f"Bot xin gợi ý các quán có món ăn {food_name} với giá {price_type} {start_price} là:\n"
+                text_lines = [f"{i+1}. {spot['name']} ở {spot['address']}\n----> link: {spot['link']}"
+                            for i, spot in enumerate(eatery_spots)]
+                text = text + "\n".join(text_lines)
+            dispatcher.utter_message(text=text)
             return []
 
         if address_food and start_price and end_price:
