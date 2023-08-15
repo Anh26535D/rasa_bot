@@ -3,7 +3,9 @@ import os
 from rasa.core.agent import Agent
 
 MODEL_NAME = "20230720-224118-pizzicato-weight.tar.gz"
-TOKEN = "YOUR_TOKEN"
+
+with open("secret.txt", "r") as f:
+    TOKEN = f.readlines()
 
 cur_path = os.getcwd()
 

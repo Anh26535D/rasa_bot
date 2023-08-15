@@ -183,7 +183,7 @@ nlu:
 
   - regex: price
     examples: |
-      - \b\d+(\s*k)?\b
+      - \b\d+(\s*k|K)?\b
 
   - regex: number_top_res
     examples: |
@@ -322,5 +322,4 @@ nlu:
       - thấp h
       - kém hơn
       - kém h
-
 
