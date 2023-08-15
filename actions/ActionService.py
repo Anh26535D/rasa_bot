@@ -40,7 +40,8 @@ class ActionService:
 
     def convert_price(self, shorthand_price):
         if isinstance(shorthand_price, str):
-            price_pr = shorthand_price.replace(",", "").replace("đ", "").replace(".", "").strip()
+            price_pr = shorthand_price.replace(",", "").replace(
+                "đ", "").replace(".", "").strip()
             if price_pr.endswith('k'):
                 return int(price_pr[:-1]) * 1000
             return int(price_pr)
@@ -67,8 +68,10 @@ class ActionService:
                             {"Địa chỉ": {"$regex": f"{address_food}", "$options": "i"}},
                             {"items.Thông tin đồ ăn của quán": {"$elemMatch": {
                                 "$or": [
-                                    {"Tên đồ ăn": {"$regex": f"{food_name}","$options": "i",}},
-                                    {"Loại đồ ăn": {"$regex": f"{food_name}","$options": "i",}},
+                                    {"Tên đồ ăn": {
+                                        "$regex": f"{food_name}", "$options": "i", }},
+                                    {"Loại đồ ăn": {
+                                        "$regex": f"{food_name}", "$options": "i", }},
                                 ],
                             },
                             }
