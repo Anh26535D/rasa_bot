@@ -113,7 +113,7 @@ class ActionService:
         ]
 
         if use_sort:
-            pipeline.append({"$sort": {"Đánh giá chung": -1}},)
+            pipeline.append({"$sort": {"Đánh giá chung": -1}})
 
         if use_limit > 0:
             pipeline.append({"$limit": use_limit})
@@ -125,7 +125,7 @@ class ActionService:
 
         return res
 
-    def get_food_name_with_price_address(self, food_name, start_price, end_price, address_food="", num_objects=5):
+    def get_spots_by_address_price(self, food_name, start_price, end_price, address_food="", num_objects=5):
         start_price = self.convert_price(start_price)
         end_price = self.convert_price(end_price)
 
@@ -152,7 +152,7 @@ class ActionService:
     def get_food_name_with_type_price(self, food_name, price_type, start_price, address_food="hà nội"):
         if price_type in self.list_over:
             end_price = float("inf")
-            list = self.get_food_name_with_price_address(
+            list = self.get_spots_by_address_price(
                 food_name, start_price, end_price, address_food)
             if list is not None or len(list) > 0:
                 if len(list) > 5:
@@ -161,7 +161,7 @@ class ActionService:
         elif price_type in self.list_under:
             end_price = start_price
             start_price = 0
-            list = self.get_food_name_with_price_address(
+            list = self.get_spots_by_address_price(
                 food_name, start_price, end_price, address_food)
             if list is not None or len(list) > 0:
                 if len(list) > 5:
@@ -170,7 +170,7 @@ class ActionService:
         else:
             return []
 
-    def get_address_price(self, address_food, start_price, end_price, num_objects=5):
+    def get_foodinfo_by_address_price(self, address_food, start_price, end_price, num_objects=5):
         start_price = self.convert_price(start_price)
         end_price = self.convert_price(end_price)
 
@@ -204,11 +204,11 @@ class ActionService:
     def get_address_type_price(self, address_food, price_type, start_price):
         if price_type in self.list_over:
             end_price = float("inf")
-            list = self.get_address_price(address_food, start_price, end_price)
+            list = self.get_foodinfo_by_address_price(address_food, start_price, end_price)
             return list
         elif price_type in self.list_under:
             end_price = 0
-            list = self.get_address_price(address_food, start_price, end_price)
+            list = self.get_foodinfo_by_address_price(address_food, start_price, end_price)
             return list
         else:
             return []
@@ -387,7 +387,7 @@ class ActionService:
                     return self.convert_with_weekday(objs)
         return self.convert_with_weekday(objs)
             
-    def get_address_now(self, address_food, num_objects=5):
+    def get_current_spots_by_address(self, address_food="", use_limit=5):
 
         eatery_spots_collection = self.database["EaterySpots"]
         operating_hours_collection = self.database["OperatingHours"]
@@ -397,23 +397,22 @@ class ActionService:
         week_day = current_time.weekday()+1
         objs = []
         if address_food == "" or address_food.lower() == "hà nội":
-                        query = {
-                            "Thời gian đặt hàng": {
-                                "$elemMatch": {
-                                    "Start_time": {"$lt": start_time},
-                                    "End_time": {"$gt": start_time},
-                                    "Week_day": week_day
-                                }
-                            }
-                        }
+            query = {
+                "Thời gian đặt hàng": {
+                    "$elemMatch": {
+                        "Start_time": {"$lt": start_time},
+                        "End_time": {"$gt": start_time},
+                        "Week_day": week_day
+                    }
+                }
+            }
 
-                        time_bound = operating_hours_collection.find(query)
-                        for time in time_bound:
-                            obj = eatery_spots_collection.find_one({"ID": time["ID"]})
-                            objs.append(obj)
-                            if len(objs) == num_objects:
-                                break
-                            
+            time_bound = operating_hours_collection.find(query)
+            for time in time_bound:
+                obj = eatery_spots_collection.find_one({"ID": time["ID"]})
+                objs.append(obj)
+                if len(objs) == use_limit:
+                    break                    
         else:
             result = eatery_spots_collection.find({"Địa chỉ": { "$regex": f"{address_food}", "$options": "i" }}).sort("Đánh giá chung", -1)
             for obj in result:
@@ -431,13 +430,9 @@ class ActionService:
                 have_time = operating_hours_collection.find_one(query)
                 if have_time:
                     objs.append(obj)
-                if len(objs) == num_objects:
+                if len(objs) == use_limit:
                     break
 
 
         top_names = [{"name":obj['Tên quán'], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in objs]
         return top_names
-        
-    def get_food_now(self, food_name):
-        address = "hà nội"
-        return self.get_food_name_with_now_address(food_name, address)
