@@ -1,6 +1,8 @@
 import pymongo
 import itertools
 
+RM_DUPLICATE_FLAG = False
+
 def removeDuplicates(database, collection_name, duplicate_col="ID"):
     collection = database[collection_name]
     print(f"Number of documents in {collection_name} before removing duplicates:", collection.count_documents({}))
@@ -40,6 +42,7 @@ des_connection_url = "mongodb+srv://damanh1211:AH8Gos6j2TQqakoD@foodycluster.brw
 des_client = pymongo.MongoClient(des_connection_url)
 des_foody_db = des_client["foody"]
 
-for collection_name in des_foody_db.list_collection_names():
-    print("#"*20)
-    removeDuplicates(des_foody_db, collection_name)
+if RM_DUPLICATE_FLAG:
+    for collection_name in des_foody_db.list_collection_names():
+        print("#"*20)
+        removeDuplicates(des_foody_db, collection_name)
