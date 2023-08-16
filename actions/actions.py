@@ -24,18 +24,9 @@ class ActionTopRateAddress(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
-        address_food = None
-        number_top_res = None
-        food_name = None
-
-        entities = tracker.latest_message.get("entities", [])
-        for e in entities:
-            if e["entity"] == "address_food":
-                address_food = e["value"]
-            elif e["entity"] == "number_top_res":
-                number_top_res = e["value"]
-            elif e["entity"] == "food_name":
-                food_name = e["value"]
+        address_food = next(tracker.get_latest_entity_values("address_food"), None)
+        number_top_res = next(tracker.get_latest_entity_values("number_top_res"), None)
+        food_name = next(tracker.get_latest_entity_values("food_name"), None)
 
         try:
             n_top_spots = int(number_top_res)
@@ -572,7 +563,7 @@ class ActionFoodTime(Action):
             else:
                 dispatcher.utter_message(text="Bot xin gợi ý các quán có món ăn " + food_name + " tại " + address_food + " vào khung giờ từ " + start_time + " đến " + end_time + " là: \n" + "\n".join(
                     [f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']}, \nThời gian bán vào các thứ: {obj['time']}" for obj in temp_objs]))
-        elif food_name and address_food and time_type in self.list_middle:
+        elif food_name and address_food and time_type in action_service.list_middle:
             temp_objs = action_service.get_food_name_with_now_address(
                 food_name, address_food)
             if not temp_objs:
@@ -600,7 +591,7 @@ class ActionFoodTime(Action):
             else:
                 dispatcher.utter_message(text="Bot xin gợi ý các quán có món ăn " + food_name + " vào khung giờ từ " + start_time + " đến " + end_time + " là: \n" + "\n".join(
                     [f"* Tên quán: {obj['name']}, Địa chỉ: {obj['address']}, Link mua hàng: {obj['link']} , \nThời gian bán vào các thứ: {obj['time']}" for obj in temp_objs]))
-        elif food_name and time_type in self.list_middle:
+        elif food_name and time_type in action_service.list_middle:
             address_food = "hà nội"
             temp_objs = action_service.get_food_name_with_now_address(
                 food_name, address_food)
@@ -629,7 +620,7 @@ class ActionFoodTime(Action):
             else:
                 dispatcher.utter_message(text="Bot xin gợi ý các quán tại " + address_food + " vào khung giờ từ " + start_time + " đến " + end_time +
                                          " là: \n" + "\n".join([f"* Tên quán: {food['name']}, Địa chỉ: {food['address']}, Link mua hàng: {food['link']}" for food in temp_objs]))
-        elif address_food and time_type in self.list_middle:
+        elif address_food and time_type in action_service.list_middle:
             temp_objs = action_service.get_current_spots_by_address(address_food)
             if not temp_objs:
                 dispatcher.utter_message(

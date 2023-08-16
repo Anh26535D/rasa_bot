@@ -46,7 +46,7 @@ class ActionService:
                 return int(price_pr[:-1]) * 1000
             return int(price_pr)
         return shorthand_price
-    
+
     def convert_with_weekday(self, objs):
         for obj in objs:
             obj['name'] = obj['Tên quán']
@@ -204,11 +204,13 @@ class ActionService:
     def get_address_type_price(self, address_food, price_type, start_price):
         if price_type in self.list_over:
             end_price = float("inf")
-            list = self.get_foodinfo_by_address_price(address_food, start_price, end_price)
+            list = self.get_foodinfo_by_address_price(
+                address_food, start_price, end_price)
             return list
         elif price_type in self.list_under:
             end_price = 0
-            list = self.get_foodinfo_by_address_price(address_food, start_price, end_price)
+            list = self.get_foodinfo_by_address_price(
+                address_food, start_price, end_price)
             return list
         else:
             return []
@@ -248,12 +250,12 @@ class ActionService:
             end_price = float("inf")
             list = self.get_price(start_price, end_price)
             return list
-        
+
         if price_type in self.list_under:
             end_price = 0
             list = self.get_price(start_price, end_price)
             return list
-        
+
         return []
 
     def get_food_name_with_time_address(self, food_name, start_time, end_time, address_food, num_objects=5):
@@ -262,7 +264,7 @@ class ActionService:
         eatery_spots_collection = self.database["EaterySpots"]
         menu_items_collection = self.database["MenuItems"]
         operating_hours_collection = self.database["OperatingHours"]
-    
+
         if address_food == "" or address_food.lower() == "hà nội":
             foods = menu_items_collection.find(
                 {
@@ -285,99 +287,182 @@ class ActionService:
             for food in foods:
                 id_obj = food["ID"]
                 time_obj = []
-                time_obj_food = operating_hours_collection.find_one({"ID": id_obj})
+                time_obj_food = operating_hours_collection.find_one(
+                    {"ID": id_obj})
                 times = time_obj_food["Thời gian đặt hàng"]
                 try:
-                        for time in times:
-                                    if self.compare_times(time["Start_time"], start_time) and self.compare_times(end_time, time["End_time"]):
-                                        time_obj.append(str(time["Week_day"]))
+                    for time in times:
+                        if self.compare_times(time["Start_time"], start_time) and self.compare_times(end_time, time["End_time"]):
+                            time_obj.append(str(time["Week_day"]))
                 except:
                     pass
                 if len(time_obj) > 0:
-                        obj = eatery_spots_collection.find_one({"ID": id_obj})
-                        obj["time"] = time_obj
-                        objs.append(obj)
-                        if len(objs) == num_objects:
-                            return self.convert_with_weekday(objs)
+                    obj = eatery_spots_collection.find_one({"ID": id_obj})
+                    obj["time"] = time_obj
+                    objs.append(obj)
+                    if len(objs) == num_objects:
+                        return self.convert_with_weekday(objs)
         else:
-            result = eatery_spots_collection.find({"Địa chỉ": { "$regex": f"{address_food}", "$options": "i" }}).sort("Đánh giá chung", -1)
+            result = eatery_spots_collection.find(
+                {"Địa chỉ": {"$regex": f"{address_food}", "$options": "i"}}).sort("Đánh giá chung", -1)
 
             for obj in result:
                 time_obj = []
                 id_obj = obj["ID"]
                 food_in_obj = menu_items_collection.find_one({"ID": id_obj})
-                food_in_obj_time = operating_hours_collection.find_one({"ID": id_obj})
+                food_in_obj_time = operating_hours_collection.find_one({
+                                                                       "ID": id_obj})
                 foods = food_in_obj["Thông tin đồ ăn của quán"]
                 for food in foods:
                     if food_name.lower() in food['Tên đồ ăn'].lower() or food_name.lower() in food['Loại đồ ăn'].lower():
                         try:
                             times = food_in_obj_time["Thời gian đặt hàng"]
                             for time in times:
-                                        if self.compare_times(time["Start_time"], start_time) and self.compare_times(end_time, time["End_time"]):
-                                            time_obj.append(str(time["Week_day"]))
+                                if self.compare_times(time["Start_time"], start_time) and self.compare_times(end_time, time["End_time"]):
+                                    time_obj.append(
+                                        str(time["Week_day"]))
                         except:
                             pass
                 if len(time_obj) > 0:
-                            obj['time'] = time_obj
-                            objs.append(obj)
-                            if len(objs) == num_objects:
-                                return self.convert_with_weekday(objs)
+                    obj['time'] = time_obj
+                    objs.append(obj)
+                    if len(objs) == num_objects:
+                        return self.convert_with_weekday(objs)
         return self.convert_with_weekday(objs)
-        
-    def get_food_name_with_now_address(self, food_name, address_food, num_objects=5):
+
+    def get_food_name_with_now_address(self, food_name="", address_food="", use_sort=False, use_limit=5):
 
         eatery_spots_collection = self.database["EaterySpots"]
-        menu_items_collection = self.database["MenuItems"]
-        operating_hours_collection = self.database["OperatingHours"]
 
         current_time = datetime.now()
         start_time = current_time.strftime("%H:%M")
         week_day = current_time.weekday()+1
-        objs = []
-        num = 0
-        result = eatery_spots_collection.find({"Địa chỉ": { "$regex": f"{address_food}", "$options": "i" }}).sort("Đánh giá chung", -1)
-        for obj in result:
-            foods = menu_items_collection.find_one({"ID": obj["ID"]})
-            times = operating_hours_collection.find_one({"ID": obj["ID"]})
-            foods_in_obj = foods["Thông tin đồ ăn của quán"]
-            for food in foods_in_obj:
-                num += 1
-                if food_name.lower() in food['Tên đồ ăn'].lower() or food_name.lower() in food['Loại đồ ăn'].lower():
-                        for time in times["Thời gian đặt hàng"]:
-                            if self.compare_times(time["Start_time"], start_time) and self.compare_times(start_time, time["End_time"]) and week_day==time["Week_day"]:
-                                objs.append(obj)
-                                break
-            if len(objs) == num_objects or num > 10000:
-                break                
+        food_query = {}
 
-        top_names = [{"name":obj['Tên quán'], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in objs]
-        return top_names
+        if food_name:
+            food_query = {
+                "$or": [
+                    {"items.Thông tin đồ ăn của quán.Tên đồ ăn": {
+                        "$regex": f"{food_name}", "$options": "i"}},
+                    {"items.Thông tin đồ ăn của quán.Loại đồ ăn": {
+                        "$regex": f"{food_name}", "$options": "i", }}
+                ],
+            }
+
+        pipeline = [
+            {
+                "$lookup":
+                    {
+                        "from": "MenuItems",
+                        "localField": "ID",
+                        "foreignField": "ID",
+                        "as": "items"
+                    }
+            },
+            {
+                "$lookup":
+                    {
+                        "from": "OperatingHours",
+                        "localField": "ID",
+                        "foreignField": "ID",
+                        "as": "hours"
+                    }
+            },
+            {"$unwind": "$items"},
+            {"$unwind": "$hours"},
+            {"$unwind": "$items.Thông tin đồ ăn của quán"},
+            {"$unwind": "$hours.Thời gian đặt hàng"},
+            {
+                "$addFields": {
+                    "before": {
+                        "$strcasecmp": [start_time, "$hours.Thời gian đặt hàng.Start_time"]
+                    },
+                }
+            },
+            {
+                "$addFields": {
+                    "affter": {
+                        "$strcasecmp": ["$hours.Thời gian đặt hàng.End_time", start_time]
+                    },
+                }
+            },
+            {
+                "$match": {
+                    "$and": [
+                        {
+                            "Địa chỉ": {"$regex": f"{address_food}", "$options": "i"},
+                            "hours.Thời gian đặt hàng.Week_day": week_day,
+                            "affter": 1,
+                            "before": 1
+                        },
+                        food_query
+                    ]
+                }
+            }
+        ]
+
+        if use_sort:
+            pipeline.append({"$sort": {"Đánh giá chung": -1}})
+
+        pipeline.extend(
+            [{
+                "$group": {
+                    "_id":
+                        {
+                            "name": "$Tên quán",
+                            "address": "$Địa chỉ",
+                            "link":  "$Url"
+                        }
+                }
+            },
+                {"$addFields":
+                 {
+                     "name": "$_id.name",
+                     "address": "$_id.address",
+                     "link":  "$_id.link",
+                 }
+                 },
+                {
+                "$project": {
+                    "name": 1, "address": 1, "link": 1, "_id": 0
+                }
+            }]
+        )
+
+        if use_limit > 0:
+            pipeline.append({"$limit": use_limit})
+
+        result = list(eatery_spots_collection.aggregate(pipeline))
+        return result
 
     def get_food_name_with_type_time_address1(self, food_name, start_time, time_type, address_food):
         if time_type in self.list_over:
             end_time = "23:59"
-            list = self.get_food_name_with_time_address(food_name, start_time, end_time, address_food)
+            list = self.get_food_name_with_time_address(
+                food_name, start_time, end_time, address_food)
             return list
         elif time_type in self.list_under:
             end_time = "00:00"
-            list = self.get_food_name_with_time_address(food_name, start_time, end_time, address_food)
+            list = self.get_food_name_with_time_address(
+                food_name, start_time, end_time, address_food)
             return list
-        
+
     def get_time_address(self, start_time, end_time, address_food, num_objects=5):
         objs = []
 
         eatery_spots_collection = self.database["EaterySpots"]
         operating_hours_collection = self.database["OperatingHours"]
 
-        result = eatery_spots_collection.find({"Địa chỉ": { "$regex": f"{address_food}", "$options": "i" }}).sort("Đánh giá chung", -1)
+        result = eatery_spots_collection.find(
+            {"Địa chỉ": {"$regex": f"{address_food}", "$options": "i"}}).sort("Đánh giá chung", -1)
         for obj in result:
             time_obj = []
             id_obj = obj["ID"]
-            times = operating_hours_collection.find_one({"ID": id_obj}) 
+            times = operating_hours_collection.find_one({"ID": id_obj})
             try:
                 for time in times["Thời gian đặt hàng"]:
-                            if self.compare_times(time["Start_time"], start_time) and self.compare_times(end_time, time["End_time"]):
-                                time_obj.append(str(time["Week_day"]))
+                    if self.compare_times(time["Start_time"], start_time) and self.compare_times(end_time, time["End_time"]):
+                        time_obj.append(str(time["Week_day"]))
             except:
                 pass
             if len(time_obj) > 0:
@@ -386,7 +471,7 @@ class ActionService:
                 if len(objs) == num_objects:
                     return self.convert_with_weekday(objs)
         return self.convert_with_weekday(objs)
-            
+
     def get_current_spots_by_address(self, address_food="", use_limit=5):
 
         eatery_spots_collection = self.database["EaterySpots"]
@@ -412,27 +497,28 @@ class ActionService:
                 obj = eatery_spots_collection.find_one({"ID": time["ID"]})
                 objs.append(obj)
                 if len(objs) == use_limit:
-                    break                    
+                    break
         else:
-            result = eatery_spots_collection.find({"Địa chỉ": { "$regex": f"{address_food}", "$options": "i" }}).sort("Đánh giá chung", -1)
+            result = eatery_spots_collection.find(
+                {"Địa chỉ": {"$regex": f"{address_food}", "$options": "i"}}).sort("Đánh giá chung", -1)
             for obj in result:
                 id_obj = obj["ID"]
                 query = {
-                            "Thời gian đặt hàng": {
-                                "$elemMatch": {
-                                    "Start_time": {"$lt": start_time},
-                                    "End_time": {"$gt": start_time},
-                                    "Week_day": week_day
-                                }
-                            },
-                            "ID": id_obj
+                    "Thời gian đặt hàng": {
+                        "$elemMatch": {
+                            "Start_time": {"$lt": start_time},
+                            "End_time": {"$gt": start_time},
+                            "Week_day": week_day
                         }
+                    },
+                    "ID": id_obj
+                }
                 have_time = operating_hours_collection.find_one(query)
                 if have_time:
                     objs.append(obj)
                 if len(objs) == use_limit:
                     break
 
-
-        top_names = [{"name":obj['Tên quán'], "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in objs]
+        top_names = [{"name": obj['Tên quán'],
+                      "address":obj["Địa chỉ"], "link": obj["Url"]} for obj in objs]
         return top_names
